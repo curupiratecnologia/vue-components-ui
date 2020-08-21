@@ -1,4 +1,6 @@
-# vue-mapbox
+# Components UI
+
+A series of component used in our projects in curupira tecnologia
 
 [Ver Documentção](https://curupiratecnologia.gitlab.io/vue-mapbox/docs/)
 

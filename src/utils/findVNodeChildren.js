@@ -17,7 +17,7 @@ export default function (Node, componentNameToFind, depthLevel = 1, slots = [], 
   //     if ((get(vnode, '$options.name', get(vnode, 'componentOptions.Ctor.options.name')) === componentNameToFind)) {
   //       foundInstances.push(vnode)
   //     }
-      
+
   //     if ((vnode.$slots || vnode.$scopedSlots) && currentDepth <= depthLevel) {
   //       // find in slots
   //       const mySlots = (slots.length === 0) ? Object.keys(vnode.$slots) : slots
@@ -43,10 +43,8 @@ export default function (Node, componentNameToFind, depthLevel = 1, slots = [], 
   //       })
   //     }
 
-
   //   })
   // }
-
 
   // const findLayers = (VNode, bag) => {
   //   bag = bag || []
@@ -86,7 +84,7 @@ export default function (Node, componentNameToFind, depthLevel = 1, slots = [], 
 
   const findLayers = (VNode, bag) => {
     bag = bag || []
-    
+
     if (Array.isArray(VNode)) {
       VNode.forEach(node => {
         findLayers(node, bag)
@@ -94,11 +92,10 @@ export default function (Node, componentNameToFind, depthLevel = 1, slots = [], 
       return bag
     }
 
-
-  //   // I will allways get the component instance
+    //   // I will allways get the component instance
     let VNodeInstance
 
-    if( get(VNode, 'componentInstance') ) {
+    if (get(VNode, 'componentInstance')) {
       VNodeInstance = get(VNode, 'componentInstance')
     } else {
       VNodeInstance = VNode
@@ -106,11 +103,11 @@ export default function (Node, componentNameToFind, depthLevel = 1, slots = [], 
 
     if ((get(VNodeInstance, '$options.name', get(VNodeInstance, 'componentOptions.Ctor.options.name')) === componentNameToFind)) {
       bag.push(VNodeInstance)
-      console.log( get(VNodeInstance, '$props.name') )
+      console.log(get(VNodeInstance, '$props.name'))
     }
     // let children = get(VNode, 'children') || get(VNode, 'componentOptions.children')
     // if (!children) children = get(VNode, 'componentInstance.$children')
-    // if (!children) 
+    // if (!children)
     const children = get(VNodeInstance, '$children') || get(VNodeInstance, 'children')
     if (Array.isArray(children)) {
       children.forEach(node => {

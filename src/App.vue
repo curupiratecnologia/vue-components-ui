@@ -103,7 +103,6 @@
                       targetPosition="geomDestino"
                     />
 
-
       </VueMapbox>
 
             <!-- <VueMapbox mapStyle="mapbox://styles/mapbox/dark-v10" height="700px" width="900px" :images="images" >

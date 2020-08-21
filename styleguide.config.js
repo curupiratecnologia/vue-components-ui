@@ -63,7 +63,7 @@ module.exports = {
     {
       name: 'Custom Markers',
       sectionDepth: 1,
-      components:[
+      components: [
         'src/components/Markers/VmMarkerDonut.vue'
       ]
     },
