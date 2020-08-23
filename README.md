@@ -2,22 +2,44 @@
 
 A series of component used in our projects in curupira tecnologia
 
-[Ver Documentção](https://curupiratecnologia.gitlab.io/vue-mapbox/docs/)
+[DOCUMENTATION](https://curupiratecnologia.github.io/vue-components-ui)
 
 
-## Project setup
+## Install
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+npm install @curupira/vue-components-ui
 ```
 
-### Compiles and minifies for production
+### Use all components
 ```
-npm run build
+import UI from '@curupira/vue-components-ui'
+import '@curupira/vue-components-ui/dist/curupira-ui.css'
+import { SvgIcon } from '@curupira/vue-components-ui'
+Vue.use(SvgIcon, {
+  tagName: 'icon'
+})
+Vue.use(UI)
+```
+
+
+### Use individual components
+
+#### Global
+```
+import { DataLoader, Dropdown } from '@curupira/vue-components-ui'
+
+Vue.components(curupiraUi)
+
+```
+
+#### In a component
+```
+import { DataLoader, Dropdown } from '@curupira/vue-components-ui'
+
+export default{
+    components:{DataLoader,Dropdown }
+}
+
 ```
 
 ### Lints and fixes files

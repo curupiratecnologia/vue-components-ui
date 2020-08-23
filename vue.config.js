@@ -1,5 +1,7 @@
 module.exports = {
-
+  css: {
+    extract: true
+  },
   lintOnSave: process.env.NODE_ENV !== 'production',
   devServer: {
     port: 8989,

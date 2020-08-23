@@ -1,143 +1,12 @@
 <template>
   <div id="app">
     <center>
-      <div class="grid grid-2">
-        <div>1</div>
-        <div>2</div>
-      </div>
-      <VueMapbox
-      hash="pos"
-       mapStyle="mapbox://styles/mapbox/dark-v10" height="700px" width="900px" :images="images" >
-
-              <vm-source
-                                    name="painel_solucao_compartilhada_solucao_info"
-                                    type='vector'
-                                    :options="{ type:'vector', tiles:[`http://pangea-dev.apps.mma.gov.br/tile/painel_solucao_compartilhada_solucao_info/{z}/{x}/{y}.mvt?ano_referencia=2019`], minzoom: 1, maxzoom: 24, }" >
-
-                </vm-source>
-
-           <vm-source
-                key="arranjos_potenciais"
-                name="arranjos_potenciais"
-                type='vector'
-                :options="{ type:'vector', tiles:[`http://pangea-dev.apps.mma.gov.br/tile/arranjos_potenciais/{z}/{x}/{y}.mvt?ano_referencia=2019`], minzoom: 0, maxzoom: 24, }"
-                />
-           <vm-source
-                key="arranjos_potenciais-center"
-                name="arranjos_potenciais-center"
-                type='vector'
-                :options="{ type:'vector', tiles:[`http://pangea-dev.apps.mma.gov.br/label/arranjos_potenciais/{z}/{x}/{y}.mvt?ano_referencia=2019`], minzoom: 0, maxzoom: 24, }"
-                />
-
-                   <!-- ARRANJOS -->
-            <!-- <vm-layer
-                  key="arranjos_potenciais-fill"
-                  name="arranjos_potenciais-fill"
-                  type="fill"
-                  source="arranjos_potenciais"
-                  sourceLayer="arranjos_potenciais"
-                  fill-color="#5CEE89"
-                  :fill-opacity="0.6"
-                  :paint-hover="{'fill-opacity':1}"
-              >
-
-                <template #popupClick="{features}">
-                      <pre>{{features[0].properties}}</pre>
-                </template>
-              </vm-layer> -->
-
-                 <vm-layer
-                    name="circles"
-                    type="circle"
-                    source="arranjos_potenciais-center"
-                    sourceLayer="label_arranjos_potenciais"
-                    circle-color="#000000"
-                    :circle-radius="12"
-                    :circle-opacity="0.7"
-                    :z-index="23"
-                  />
-                <vm-layer
-                    name="circles"
-                    type="circle"
-                    source="arranjos_potenciais-center"
-                    sourceLayer="label_arranjos_potenciais"
-                    circle-color="#000000"
-                    :circle-radius="12"
-                    :circle-opacity="0.7"
-                    :z-index="23"
-                >
-                <template #popupClick="{features}">
-                      <pre>{{features[0].properties}}</pre>
-                </template>
-                 </vm-layer>
-
-                  <vmLayer name="myLayer"
-                        source="painel_solucao_compartilhada_solucao_info"
-                        sourceLayer="painel_solucao_compartilhada_solucao_info"
-                        type="fill"
-                        :paint="{ 'fill-color': fill, 'fill-opacity': 0.6, 'fill-color-transition':{ 'duration': 20000, 'delay': 2000 }  }"
-                        multipleFeatureSelectionOn="alt"
-
-                        >
-
-                       <template v-slot:popupHover>
-                              <h6> Here goes the pop up content while in <b>HOVER</b> a Feature.</h6>
-                        </template>
-
-                        <template v-slot:popupClick="slotProps">
-                          <VmPopup max-width="400px">
-                               <pre>{{ slotProps.features && slotProps.features[0] && slotProps.features[0].properties }}</pre>
-                              <h6>Here goes the pop up content while in <b>CLICK</b> a Feature.</h6>
-                          </VmPopup>
-                        </template>
-
-                 </vmLayer>
-
-                  <vmLayerArc
-                      name="arcLayer"
-                      :data="fluxoFinal"
-                      :witdh="10"
-                      sourceColor="#ffffff"
-                      targetColor="corDestino"
-                      sourcePosition="geomOrigem"
-                      targetPosition="geomDestino"
-                    />
-
-      </VueMapbox>
-
-            <!-- <VueMapbox mapStyle="mapbox://styles/mapbox/dark-v10" height="700px" width="900px" :images="images" >
-
-              <vmLayer name="myLayer"
-                        :source="{
-                          id:'outrosource',
-                          type:'vector',
-                          tiles:[`http://rspangea.mma.gov.br/tile/painel_solucao_compartilhada_solucao_info/{z}/{x}/{y}.mvt?ano_referencia=${ano}`]
-                        }"
-                        sourceLayer="painel_solucao_compartilhada_solucao_info"
-                        type="fill"
-                        :multipleFeatureSelectionOn="'alt'"
-                        :paint="{ 'fill-color': '#ff7700', 'fill-opacity': 0.6  }"
-                        :paint-hover="{ 'fill-color': '#ff7799', 'fill-opacity': 1  }"
-                        :paint-click="{ 'fill-color': 'blue', 'fill-opacity': 1   }"
-                        multipleFeatureSelectionOn="alt"
-
-                        >
-
-                       <template v-slot:popupHover="slotprops">
-                              <h6> Here goes the pop up content while in <b>HOVER</b> a Feature.</h6>
-                              <pre>{{slotprops}}</pre>
-                        </template>
-
-                        <template v-slot:popupClick="slotProps">
-                          <VmPopup max-width="400px">
-                               <pre>{{ slotProps.features && slotProps.features[0] && slotProps.features[0].properties }}</pre>
-                              <h6>Here goes the pop up content while in <b>CLICK</b> a Feature.</h6>
-                          </VmPopup>
-                        </template>
-
-                 </vmLayer>
-
-      </VueMapbox> -->
+         <div>
+           <icon  scale="1" name='icon-minus' />
+  <dropdown-menu-item > Menu item </dropdown-menu-item>
+  <dropdown-menu-item > Menu item 2 </dropdown-menu-item>
+  <dropdown-menu-item category-text="CATEGORY TEXT" text="Menu item 3" chips-text="2" :has-submenu="true"></dropdown-menu-item>
+</div>
 
     </center>
 
@@ -776,11 +645,5 @@ export default {
 </script>
 
 <style lang="stylus">
-#app
-  font-family Avenir, Helvetica, Arial, sanssdfasdfa-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
-  margin-top 60px
+
 </style>

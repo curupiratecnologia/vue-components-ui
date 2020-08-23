@@ -1,0 +1,257 @@
+
+:root{
+    --blue-title-section: #314559;
+    --gray-title-section: #797979;
+    --cor-fundo: #E5F1DB;
+    --cor-principal: #EFA12C;
+    --cor-secundario: #5E8B3B;
+    --cor-gray: #544C49;
+    
+    // DROPDOWN 
+    --dropdown-label__size: 12px;
+    --dropdown-select__color: #E8F595
+    --dropdown-select__size: 2.4em;
+    
+    // item show im multiple selections
+    --dropdown-select-chips__size: 11px;
+    --dropdown-select-chips__color: black;
+    --dropdown-select-chips__background: #A4BB84;
+    
+    //DROPDOWN-MENU
+    --dropdown-menu-item__color: white
+    --dropdown-menu-item__color--active: #000000cc
+    --dropdown-menu-item__color--hover: white
+    --dropdown-menu-item__color--disable: #000000cc
+    --dropdown-menu-item__background: #333333
+    --dropdown-menu-item__background--active: #E8F595
+    --dropdown-menu-item__background--hover: #666666
+    --dropdown-menu-item__background--disable: #000000cc
+
+    //DROPDOWN-MENU-SEARCH
+    --dropdown-search-bar__color: white
+    --dropdown-search-bar__background: #666666
+
+}
+
+height-ratio = 4px
+hratio = 4px
+font-base = 14px
+
+color-blue = #314559
+color-green = #5A9591
+color-gray = #575555
+color-gray-light = #797979
+color-orange = #E5A253
+color-yellow = #E8F595
+color-pink = #F1A1A1
+color-dark-gray = #446671
+font-main =  'Proxima Nova Alt Rg'
+font-secundary = 'Gilroy'
+color-main = color-green
+color-secundary = color-blue
+
+body{
+    background:white !important;
+}
+
+.num,.number{
+    font-family:'Gilroy'
+}
+
+.color-data-1{
+    color: #9FF6BA
+}
+.color-data-2{
+       color: #D0F89D 
+}
+.color-data-3{
+    color: #304558
+}
+.color-data-4{
+    color: #2C5552
+}
+
+.color-data-white{
+    color: #d9ead3
+}
+
+div:focus{
+      outline-style: none
+}
+
+button,
+.btn{
+    border-radius: 15px;
+    padding: 10px 20px;
+    background: #E9A72F;
+    color:black;
+    text-align:center;
+    border:none !important
+    outline:none;
+    font-weight: bolder;
+    cursor:pointer;
+    transition: all 200ms
+    &:hover{
+        box-shadow: 2px 2px 8px 4px #00000022    
+    }
+
+    &.disable{
+      background: #66666666; 
+      color: white; 
+    }
+}
+
+// ICONS
+/* recommended css code for vue-svgicon */
+.svg-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    color: inherit;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
+}
+ 
+.svg-fill {
+    fill: currentColor;
+    stroke: none;
+}
+ 
+.svg-up {
+    /* default */
+    transform: rotate(0deg);
+}
+ 
+.svg-right {
+    transform: rotate(90deg);
+}
+ 
+.svg-down {
+    transform: rotate(180deg);
+}
+ 
+.svg-left {
+    transform: rotate(-90deg);
+}
+
+
+
+
+.no-data{
+    opacity:0.2
+    mix-blend-mode: luminosity;
+    color:black 
+    transition: opacity 300ms, mix-blend-mode 300ms
+    user-select: none;
+    pointer-events: none
+
+    .no-data{
+         opacity:initial
+         mix-blend-mode: initial;
+         color:initial 
+    }
+}
+
+// TODO - esta aqui e no data-source. Verificar um metodo de usar melhor isso
+.loading{
+    opacity:1
+    mix-blend-mode: luminosity;
+    color:black 
+    transition: opacity 300ms, mix-blend-mode 300ms
+    animation: loadingAnimation 900ms infinite alternate;
+
+    & *{
+        color:black
+    }
+
+    .loading{ //remove loading inside loading
+         opacity:initial
+         mix-blend-mode: initial;
+         color:initial 
+    }
+}
+
+
+@keyframes loadingAnimation {
+  from {
+    opacity: 0.2;
+  }
+  to {
+    opacity: 0.1;
+    
+  }
+}
+
+
+// .pointer{
+//     cursor: pointer;
+// }
+
+
+
+// #panel-app,
+// .popper{
+// *::-webkit-scrollbar-track
+// {
+//  	-webkit-box-shadow: none; 
+// 	border-radius: 10px;
+// 	background-color: #f5f5f566;
+//     opacity:0.8
+// }
+
+// *::-webkit-scrollbar
+// {
+// 	width: 8px;
+// 	background-color: #F5F5F500;
+// }
+
+// *::-webkit-scrollbar-thumb
+// {
+// 	border-radius: 10px;
+// 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+// 	background-color: #555;
+// }
+// *{
+//      scrollbar-color: rgba(0,0,0,.3) #f5f5f566;
+//      scrollbar-width: thin;
+// }
+// }
+
+
+
+
+
+// TOLLTIP THEME
+.tippy-tooltip.panel-theme{
+        background-color: var(--cor-secundario)
+}
+.tippy-popper[x-placement^=bottom] .panel-theme .tippy-arrow{
+    border-bottom: 8px solid var(--cor-secundario) !important
+}
+.tippy-popper[x-placement^=top] .panel-theme .tippy-arrow{
+    border-top: 8px solid var(--cor-secundario) !important
+}
+.tippy-popper[x-placement^=left] .panel-theme .tippy-arrow{
+    border-left: 8px solid var(--cor-secundario) !important
+}
+.tippy-popper[x-placement^=right] .panel-theme .tippy-arrow{
+    border-right: 8px solid var(--cor-secundario) !important
+}
+
+
+
+
+
+#mapaBaseLayer{
+    overflow visible;    
+}
+//mapboxgl-canvas
+.mapboxgl-canvas{
+    
+    &:focus{
+        outline: none;    
+    }
+}
+
+
