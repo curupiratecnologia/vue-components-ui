@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import forEach from 'lodash/forEach'
-
+import store from './store'
 // import '@curupira/grid-system/dist/main.css'
 // import '@curupira/vue-components-ui/dist/curupira-ui.css'
 import UI from './entry.js'
@@ -12,6 +12,15 @@ Vue.use(SvgIcon, {
 })
 
 Vue.config.productionTip = false
+
+
+
+Vue.use(function (Vue) {
+
+  Vue.prototype.$env = process.env
+  Vue.prototype.$dataapi = process.env.VUE_APP_DATA_API
+
+})
 
 // // AUTOMATIC LOAD ALL COMPONENTS.
 // // TODO - only temporary, create a async or manual method in the end
@@ -25,8 +34,9 @@ Vue.config.productionTip = false
 // }
 // requireAllComponents(require.context('./components', true, /[A-Za-z]\w+\.(vue)$/))
 
-
-
 new Vue({
+  store,
   render: h => h(App)
 }).$mount('#app')
+
+window.$store = store

@@ -9,7 +9,7 @@
 export default {
   name: 'data-source',
 
-  inject: ['module', 'urlPrefix'],
+  inject: ['module', 'urlPrefix', 'filtersToUrlGlobal'],
 
   props: {
     /**
@@ -101,13 +101,21 @@ export default {
     showLoader: {
       type: Boolean,
       default: false
-    }
+    },
     // /**
     //  * @model - vmodel it is utilized just to bind the result with a parent property ;)
     //  */
     // value: {
     //   type: Object,
     // }
+
+    /**
+     * how the filter/variables keys is called in url. Example, if you want pass a filter object as root params, without the filter key, you set it to {filterName:false},
+     * or if want to change the name on call, set  {filterName:nameInUrl}
+     */
+    filtersToUrlKey: {
+      type: Object
+    }
 
   },
 
@@ -207,7 +215,36 @@ export default {
     },
 
     myVariables: function () {
-      return { ...this.variables, ...this.myWatchFilters }
+      const variables = { ...this.variables, ...this.myWatchFilters }
+      let finalVariables = {}
+
+      // create final variables, incluind transformation from filtersToUrlGlobal and filtersToUrlKey
+      Object.entries(variables).forEach((item) => {
+        const key = item[0]
+        const value = item[1]
+        let hasfiltersToUrlKey = false
+        let filterToUrlKey
+        ['filtersToUrlGlobal', 'filtersToUrlKey'].forEach(lookup => {
+          if (this[lookup] && Object.prototype.hasOwnProperty.call(this[lookup], key)) {
+            hasfiltersToUrlKey = true
+            filterToUrlKey = this[lookup][key]
+          }
+        })
+
+        if (hasfiltersToUrlKey) {
+          // false value means it is a object and we send it as root, merging it
+          if (!filterToUrlKey && value?.constructor?.name === 'Object') { 
+            finalVariables = { ...finalVariables, ...value }
+          // if truth, it is the new name of variable
+          }else{
+            finalVariables[key] = value
+          }
+        } else {
+          finalVariables[key] = value
+        }
+      })
+
+      return finalVariables
     }
 
   },
@@ -217,7 +254,8 @@ export default {
     createEndpoint: function () {
       const props = { ...this.$props }
       delete props.watchFilters
-      props.variables = this.myVariables
+      props.variables = { ...this.myVariables }
+
       props.query = this.finalQuery
       this.endpoint = { ...props }
     },
@@ -245,12 +283,11 @@ export default {
         color:black;
     }
 
-.loading .loading{ 
+.loading .loading{
          opacity:initial;
          mix-blend-mode: initial;
          color:initial;
     }
-
 
 @keyframes loadingAnimation {
   from {

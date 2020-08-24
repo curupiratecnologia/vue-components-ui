@@ -21,7 +21,6 @@ const graphQL = async function (query, variables = {}) {
 }
 
 const axiosServer = axios.create({
-  baseURL: process.env.DATA_API,
   timeout: 30000
 })
 
@@ -42,25 +41,25 @@ const getServer = async function (query, filters = {}) {
     // painel_filter_value: null
     // regiao_filter_name: "geocod_estado"
     // regiao_geocodigo: 27
-    const variablesFinal = { ...variables }
-    if (variables.regiao_filter_name && variables.regiao_geocodigo) {
-      variablesFinal[variables.regiao_filter_name] = [variables.regiao_geocodigo]
-      delete variablesFinal?.regiao_filter_name
-      delete variablesFinal?.regiao_geocodigo
-    }
-    if (variables.painel_filter_name && variables.painel_filter_value) {
-      variablesFinal[variables.painel_filter_name] = Array.isArray(variables.painel_filter_value) ? variables.painel_filter_value : [variables.painel_filter_value]
-      delete variablesFinal?.painel_filter_name
-      delete variablesFinal?.painel_filter_value
-    }
-    // variables = { regiao: { geocod_estado: [11, 41], geocod_bacia: [6, 5] }, filtros:{servico:[2], consorcio:['03.628.611/0001-77','04.572.787/0001-17']} }
-    //
-    // console.log(url+"?="+qs.stringify(variables))
+    // const variablesFinal = { ...variables }
+    // if (variables.regiao_filter_name && variables.regiao_geocodigo) {
+    //   variablesFinal[variables.regiao_filter_name] = [variables.regiao_geocodigo]
+    //   delete variablesFinal?.regiao_filter_name
+    //   delete variablesFinal?.regiao_geocodigo
+    // }
+    // if (variables.painel_filter_name && variables.painel_filter_value) {
+    //   variablesFinal[variables.painel_filter_name] = Array.isArray(variables.painel_filter_value) ? variables.painel_filter_value : [variables.painel_filter_value]
+    //   delete variablesFinal?.painel_filter_name
+    //   delete variablesFinal?.painel_filter_value
+    // }
+    // // variables = { regiao: { geocod_estado: [11, 41], geocod_bacia: [6, 5] }, filtros:{servico:[2], consorcio:['03.628.611/0001-77','04.572.787/0001-17']} }
+    // //
+    // // console.log(url+"?="+qs.stringify(variables))
 
     axios({
       url: url,
       method: 'get',
-      params: variablesFinal
+      params: variables
     }).then(response => {
       resolve(response)
     }).catch((e) => {

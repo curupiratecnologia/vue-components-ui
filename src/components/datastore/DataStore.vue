@@ -6,7 +6,7 @@
 
 <script>
 
-import painel from './store'
+import store from './store'
 
 export default {
   name: 'StoreData',
@@ -17,7 +17,10 @@ export default {
       urlPrefix: this.urlPrefix,
       changeFilters: this.changeFilters,
       getters: this.getters,
-      filters: this.currentFilters
+      filters: this.currentFilters, // remove because it is not observable
+      getFilters: this.getFilters,
+      getFilter: this.getFilters,
+      filtersToUrlGlobal: this.filtersToUrlKey
     }
   },
 
@@ -30,14 +33,14 @@ export default {
       required: true
     },
     /**
-     *  File Name in store/NAME will be merged with the store. Util to pute some personalize getters,acions etc
+     *  store object to append to
      */
     appendStore: {
-      type: String,
+      type: Object,
       required: false
     },
     /**
-     *  File Name in store/NAME will be merged with the store. Util to pute some personalize getters,acions etc
+     *  the prefix of all call make by inners <datasources>. If dataSource start with // or http, it will be ignored.
      */
     urlPrefix: {
       type: String,
@@ -46,6 +49,7 @@ export default {
     /**
      * What keys to watch and observer, i change, will reload all DataSource componentes in store.
      * Use with caution. Best is use dataSource variable objects
+     * TODO
      */
     observersStateKeys: {
       type: [Array],
@@ -56,7 +60,13 @@ export default {
      */
     filters: {
       type: Object
-
+    },
+    /**
+     * how the filter keys is called in url. Example, if you want pass a filter object as root params, without the filter key, you set it to {filterName:null},
+     * or if want to change the name on call, set  {filterName:nameInUrl}
+     */
+    filtersToUrlKey: {
+      type: Object
     }
   },
 
@@ -71,13 +81,32 @@ export default {
 
   created () {
     // Register the new storeModule for panel
-    this.$store.registerModule(this.storeName, painel)
+    const storeFinal = store
+    storeFinal.state = storeFinal.state()
+    debugger;
+    if (this.appendStore) {
+      ['state', 'getters', 'actions', 'mutations'].forEach(storeProp => {
+        if (this.appendStore[storeProp]) {
+          Object.entries(this.appendStore[storeProp]).forEach((item) => {
+            const key = item[0]
+            const value = item[1]
+            if (storeFinal[storeProp][key]) {
+              throw new Error('Item ' + key + ' already exists ' + storeProp + ' in DataSource Store, use another name')
+            } else {
+              storeFinal[storeProp][key] = value
+            }
+          })
+        }
+      })
+    }
+
+    this.$store.registerModule(this.storeName, storeFinal)
     this.setFilters()
   },
 
   computed: {
     currentFilters: function () {
-      const filters = this.$store.state?.[this.storeName]?.filters
+      const filters = this.$store.getters[`${this.storeName}/getFilters`]
       if (!filters) {
         return this.filters
       }
@@ -107,10 +136,18 @@ export default {
 
     /**
      * @public
-     * will retur a getter or state of module
+     * will change a filter to a defined value
      */
     changeFilters: function (filter) {
       this.$store.commit(`${this.storeName}/setFilter`, filter)
+    },
+
+    /**
+     * @public
+     * will return a filter value, or all filter if no arg passed
+     */
+    getFilters: function (filter) {
+      return this.$store.getters[`${this.storeName}/getFilter`](filter)
     }
 
   }

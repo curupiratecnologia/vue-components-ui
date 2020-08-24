@@ -8,7 +8,7 @@
             :append-to-body="true"
             :options="{
               strategy: 'fixed',
-              placement: 'bottom-end',
+              placement: placement,
               modifiers: {
               flip: {
                 enabled: false,
@@ -72,7 +72,7 @@
                 :maxWidth="250"
                 :multiple="multiple" >
                 <slot></slot>
-            </dropdown-menu> 
+            </dropdown-menu>
             </div>
 
             </popper>
@@ -83,6 +83,7 @@
 <script>
 import Popper from 'vue-popperjs'
 import dropdownMenu from './dropdown-menu.vue'
+import get from 'lodash/get'
 
 export default {
   components: { Popper, dropdownMenu },
@@ -141,6 +142,10 @@ export default {
     options: {
       type: Array,
       default: () => ([{ text: 'lebel', value: 'value' }])
+    },
+    placement: {
+      type: String,
+      default: 'bottom-end'
     }
 
   },
@@ -163,6 +168,10 @@ export default {
       this.selectedValues = this.value
     }
 
+  },
+
+  beforeCreate () {
+    this.$get = get
   },
 
   methods: {

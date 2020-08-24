@@ -21,8 +21,12 @@ module.exports = {
     'padded-blocks': 'warn',
     'spaced-comment': 'warn',
     'keyword-spacing': 'warn',
-    'keyword-spacing': 'warn',
-    'quote-props': ['warn', 'consistent-as-needed']
+    'quote-props': ['warn', 'consistent-as-needed'],
+    'camelcase': 'off',
+    'no-useless-escape': 'off',
+    'no-unused-vars': 'warn',
+    'no-undef': 'warn',
+    'import/no-duplicates': 'warn'
 
   }
 }

@@ -78,9 +78,11 @@ export default {
           key: key,
           items: endpoint.defaultValue ?? [],
           loading: true,
+          loaded: false,
           error: false,
           errorMsg: 'none',
-          noData: true
+          noData: true,
+          ready: false // when finish loaded and have data and no errors
         }
         state.data = { ...state.data, ...objdata }
         // state.data[key] = objdata
@@ -134,12 +136,14 @@ export default {
         key: endpoint.keyName,
         items: endpoint.defaultValue ?? [],
         loading: false,
+        loaded: false,
         error: false,
         errormsg: '',
-        noData: false
+        noData: false,
+        ready: false
       }
 
-      // only request if we have all conditions
+      // only request if we have all conditions, like  needFilters we need we have ser
       let canRequest = true
       if (Array.isArray(endpoint?.needFilters) && endpoint.needFilters.length > 1) {
         endpoint.needFilters.forEach((key) => {
@@ -155,7 +159,7 @@ export default {
         return obj
       }
 
-      ctx.commit('setDataStatus', { key: endpoint.keyName, loading: true, noData: false })
+      ctx.commit('setDataStatus', { key: endpoint.keyName, loading: true, loaded: false, noData: false, ready: false })
 
       let response
 
@@ -168,6 +172,7 @@ export default {
             data = get(data, endpoint.itemsPath, null)
           }
           obj.items = data
+          obj.ready = true
 
           if (endpoint.itemKeyName) {
             obj.itemsByKey = keyBy(data, endpoint.itemKeyName)
@@ -176,22 +181,26 @@ export default {
           obj.noData = true
           obj.items = endpoint.defaultValue ?? []
         }
+        obj.loaded = true
       } catch (e) {
+        obj.loaded = true
         obj.error = true
         obj.noData = true
+        obj.ready = false
         obj.errormsg = JSON.stringify(e.config.url + e.message)
         obj.items = endpoint.defaultValue ?? []
-        if (Vue.notify) {
-          Vue.notify({
-            group: 'data',
-            type: 'error',
-            title: 'Erro de requisição ao servidor',
-            duration: 100000,
-            text: obj.errormsg
-          })
-        }
-      }
 
+        // TODO - put notify system in another place
+        // if (Vue.notify) {
+        //   Vue.notify({
+        //     group: 'data',
+        //     type: 'error',
+        //     title: 'Erro de requisição ao servidor',
+        //     duration: 100000,
+        //     text: obj.errormsg
+        //   })
+        // }
+      }
       ctx.commit('setDataStatus', obj)
       return obj
     },
@@ -229,7 +238,15 @@ export default {
 
     getData: (state:mixed) => (key) => {
       return state.data[key] ?? { items: [], loading: true, noData: true }
-    }
+    },
+    getFilter: (state:mixed) => (key) => {
+      if (key) {
+        return state.filters?.[key]
+      } else {
+        return state.filters
+      }
+    },
+    getFilters: (state) => state.filters
 
   }
 }

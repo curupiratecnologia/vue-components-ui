@@ -1,29 +1,51 @@
 <template>
   <div id="app">
-    <center>
-         <div>
-           <icon  scale="1" name='icon-minus' />
-  <dropdown-menu-item > Menu item </dropdown-menu-item>
-  <dropdown-menu-item > Menu item 2 </dropdown-menu-item>
-  <dropdown-menu-item category-text="CATEGORY TEXT" text="Menu item 3" chips-text="2" :has-submenu="true"></dropdown-menu-item>
-</div>
 
-    </center>
+ <DataStore
+      storeName="map"
+      :url-prefix="$dataapi+'/mapa'"
+      :filters="{
+          ano_referencia:2018,
+          regiao:null
+      }"
+      :filtersToUrlKey="{
+        regiao:false
+      }"
+      :appendStore="appendStore">
+      <teste />
+      <div>
+        <icon scale="1" name='icon-minus' />
+        <dropdown-menu-item> Menu item </dropdown-menu-item>
+        <dropdown-menu-item> Menu item 2 </dropdown-menu-item>
+        <dropdown-menu-item category-text="CATEGORY TEXT" text="Menu item 3" chips-text="2" :has-submenu="true">
+        </dropdown-menu-item>
+      </div>
 
-    ano <input type="text" v-model="ano">
-    fill <input type="text" v-model="fill">
+  </DataStore>
 
   </div>
-</template>
+  </template>
+
 
 <script>
-
-//  import VueMapbox from './components/VueMapbox.vue'
-
+import teste from './components/teste.vue'
 export default {
+  components: { teste },
   name: 'App',
   data () {
     return {
+      appendStore: {
+        state: {
+          layerAtivos:['none']
+        },
+        getters:{
+          regiaoPangea:(state)=>{
+              state.layerAtivos
+          }
+        }
+      },
+      regions: {},
+      regionsToQuery: ['estado', 'bioma', 'bacia_hidrografica', 'macroregiao', 'regiao_metropolitana'],
       show: true,
       center: [-45, -15],
       drag: false,
@@ -611,7 +633,7 @@ export default {
 
     images: function () {
       return {
-        water: 'images/water-pattern.jpg',
+        'water': 'images/water-pattern.jpg',
         'terrain-cgee': 'images/terrain-pattern.jpg',
         'tema-1-marker': 'images/mobilidade.png',
         'tema-1-circle': 'images/mobilidade_2.png',
