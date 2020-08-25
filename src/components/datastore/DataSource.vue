@@ -1,6 +1,11 @@
 <template>
     <div v-if="$scopedSlots.default" :class="{loading:result.loading}">
-        <slot :result="result"></slot>
+        <slot :result="result" 
+              :getState="getState" 
+              :setState="setState"
+              :getFilters="getFilters"
+              :setFilters="setFilters"
+         ></slot>
     </div>
 </template>
 
@@ -9,7 +14,7 @@
 export default {
   name: 'data-source',
 
-  inject: ['module', 'urlPrefix', 'filtersToUrlGlobal'],
+  inject: ['module', 'urlPrefix', 'filtersToUrlGlobal', 'getState', 'setState', 'getFilters', 'setFilters'],
 
   props: {
     /**
@@ -233,10 +238,10 @@ export default {
 
         if (hasfiltersToUrlKey) {
           // false value means it is a object and we send it as root, merging it
-          if (!filterToUrlKey && value?.constructor?.name === 'Object') { 
+          if (!filterToUrlKey && value?.constructor?.name === 'Object') {
             finalVariables = { ...finalVariables, ...value }
           // if truth, it is the new name of variable
-          }else{
+          } else {
             finalVariables[key] = value
           }
         } else {

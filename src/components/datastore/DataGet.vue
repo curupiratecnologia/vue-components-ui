@@ -1,6 +1,11 @@
 <template>
     <div>
-        <slot :result="result"></slot>
+        <slot :result="result"
+              :getState="getState" 
+              :setState="setState"
+              :getFilters="getFilters"
+              :setFilters="setFilters"
+          ></slot>
     </div>
 </template>
 
@@ -8,7 +13,7 @@
 
 export default {
   name: 'get-data',
-  inject: ['module', 'urlPrefix'],
+  inject: ['module', 'urlPrefix', 'filtersToUrlGlobal', 'getState', 'setState', 'getFilters', 'setFilters'],
   props: {
     /**
      * if set a key name, will return the data for that key, or array of keys

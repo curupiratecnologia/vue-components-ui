@@ -7,7 +7,7 @@
 <script>
 
 import store from './store'
-
+import get from 'lodash/get'
 export default {
   name: 'StoreData',
 
@@ -16,10 +16,13 @@ export default {
       module: this.storeName,
       urlPrefix: this.urlPrefix,
       changeFilters: this.changeFilters,
+      setFilters: this.changeFilters,
       getters: this.getters,
       filters: this.currentFilters, // remove because it is not observable
       getFilters: this.getFilters,
       getFilter: this.getFilters,
+      getState: this.getState,
+      setState: this.setState,
       filtersToUrlGlobal: this.filtersToUrlKey
     }
   },
@@ -83,8 +86,11 @@ export default {
     // Register the new storeModule for panel
     const storeFinal = store
     storeFinal.state = storeFinal.state()
-    debugger;
     if (this.appendStore) {
+
+      // if(this.appendStore?.state?.constructor?.name === "Function"){
+      //    this.appendStore?.state = this.appendStore.state()
+      // }
       ['state', 'getters', 'actions', 'mutations'].forEach(storeProp => {
         if (this.appendStore[storeProp]) {
           Object.entries(this.appendStore[storeProp]).forEach((item) => {
@@ -133,6 +139,9 @@ export default {
     setFilters: function () {
       this.$store.commit(`${this.storeName}/setFilter`, this.filters)
     },
+    setState: function (obj) {
+      this.$store.commit(`${this.storeName}/setState`, obj)
+    },
 
     /**
      * @public
@@ -148,6 +157,13 @@ export default {
      */
     getFilters: function (filter) {
       return this.$store.getters[`${this.storeName}/getFilter`](filter)
+    },
+    /**
+     * @public
+     * will return a filter value, or all filter if no arg passed
+     */
+    getState: function (state) {
+      return get(this.$store.state, `[${this.storeName}]` + obj)
     }
 
   }

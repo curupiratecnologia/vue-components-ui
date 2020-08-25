@@ -107,6 +107,20 @@ export default {
       let stateFilters = { ...state.filters }
       stateFilters = { ...stateFilters, ...filter }
       state.filters = { ...stateFilters }
+    },
+
+    setState: function (state:typeof STATE, obj:Object) {
+      Object.entries(obj).forEach((item) => {
+        const key = item[0]
+        const value = item[1]
+        if (Array.isArray(value)) {
+          state[key] = [...value]
+        } else if (typeof value === 'object') {
+          state[key] = { ...value }
+        } else {
+          state[key] = value
+        }
+      })
     }
 
   },

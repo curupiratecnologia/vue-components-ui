@@ -1,9 +1,9 @@
 <template>
 
-    <div class="dropdown">
+    <div :class="'dropdown dropdown--'+mode ">
 
           <popper
-            trigger="clickToToggle"
+            :trigger="trigger"
             boundaries-selector="body"
             :append-to-body="true"
             :options="{
@@ -31,7 +31,7 @@
                       <div class="dropdown__trigger__select">
 
                           <div class="dropdown__trigger__select-value">
-                            <slot name="selecteItems" :items="selectedItens">
+                            <slot name="selecteitems" :items="selectedItens">
                               <div v-if="this.multiple === false && selectedItens.length == 1">
                                 {{ $get(selectedItens,'[0].text') }}
                               </div>
@@ -61,19 +61,21 @@
             </div>
 
             <!-- menu -->
-            <div class="popper submenu" keep-alive :style="{ width:menuWidth, 'max-width':menuWidth }">
+            <keep-alive>
+            <div class="popper submenu"  :style="{ width:menuWidth, 'max-width':menuWidth }">
             <dropdown-menu
-                keep-alive
+                
                 ref="dropdowmenu"
                 :search-bar="search"
                 v-model="selectedValues"
                 @selectedItens="changeSelectedItens"
                 :options="options"
-                :maxWidth="250"
+                :maxWidth="parseInt(menuWidth)"
                 :multiple="multiple" >
                 <slot></slot>
             </dropdown-menu>
             </div>
+            </keep-alive>
 
             </popper>
     </div>
@@ -100,7 +102,17 @@ export default {
    */
     menuWidth: {
       type: [String],
-      default: '350px'
+      default: '250px'
+    },
+
+    trigger:{
+      type: String,
+       default: 'clickToToggle',
+       validator: function (value) {
+        // O valor precisa corresponder a alguma dessas Strings
+        return ['clickToToggle', 'hover','clickToToggle','focus'].indexOf(value) !== -1
+      }
+
     },
 
     /**
@@ -200,46 +212,63 @@ export default {
       z-index:8110
    }
 
-    .dropdown__trigger-wraper{
-        cursor:pointer;
-        z-index 120;
-        // width: 200px;
-        // background: red
-
-    }
-    .dropdown__trigger__label{
-        font-weight: bold;
-        margin-bottom:0.5em;
-        font-size: var(--dropdown-label__size, 14px)
-    }
-
-    .dropdown__trigger-wraper{
-      margin-bottom: 0.5em;
-    }
-
-    .dropdown__trigger__select{
-        cursor:pointer;
-        position:relative;
-        width 100%;
-        border-bottom: 1px solid black
-        min-height: 2em;
-        display:flex;
-
-        .dropdown__trigger__select-value{
-          color: var(--dropdown-select__color, black)
-          font-size: var(--dropdown-select__size, black)
-          line-height: 0.75
-          font-weight: bolder;
-          padding: 0 0 0.2em 0
-          flex-grow: 1
+   .dropdown--menu{
+      .dropdown__trigger-wraper{
+            cursor:pointer;
+            z-index 120;
+            // width: 200px;
+            // background: red
+        }
+        .dropdown__trigger__label{
+            font-weight: bold;
+            margin-bottom:0.5em;
+            font-size: var(--dropdown-label__size, 14px)
         }
 
-        .dropdown__trigger__select-icon{
-          width: 1em;
-           align-items center
-
+        .dropdown__trigger-wraper{
+          margin-bottom: 0.5em;
         }
-    }
+
+        .dropdown__trigger__select{
+            cursor:pointer;
+            position:relative;
+            width 100%;
+            border-bottom: 1px solid black
+            min-height: var(--dropdown-select__size, 24px);
+            display:flex;
+
+            .dropdown__trigger__select-value{
+              color: var(--dropdown-select__color, black)
+              font-size: var(--dropdown-select__size, 24px)
+              line-height: 0.75
+              font-weight: bolder;
+              padding: 0 0 0.2em 0
+              flex-grow: 1
+            }
+
+            .dropdown__trigger__select-icon{
+              width: 1em;
+              align-items center
+
+            }
+        }
+   }
+
+   .dropdown--inline{
+     .dropdown__trigger__select{
+            cursor:pointer;
+            position:relative;
+            display:flex;
+     }
+      .dropdown__trigger__select-icon{
+          font-size: 0.2em;
+          align-items center
+          opacity 0.5
+          padding-left:0.2em
+      }
+   }
+
+
 
     .item_chips{
        display:inline-flex;

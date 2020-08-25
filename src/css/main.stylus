@@ -8,9 +8,9 @@
     --cor-gray: #544C49;
     
     // DROPDOWN 
-    --dropdown-label__size: 12px;
+    --dropdown-label__size: 10px;
     --dropdown-select__color: #E8F595
-    --dropdown-select__size: 2.4em;
+    --dropdown-select__size: 1.8em;
     
     // item show im multiple selections
     --dropdown-select-chips__size: 11px;
