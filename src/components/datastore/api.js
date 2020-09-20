@@ -98,9 +98,9 @@ const parseURL = function (url, variables = {}) {
  */
 const mountURL = function (url) {
   // check if is relative or absolute url
-  if (url.match(/^(http|\/\/)/) === null) {
-    url = BASE_URL + '/' + url
-  }
+  // if (url.match(/^(http|\/\/)/) === null) {
+  //   url = BASE_URL + '/' + url
+  // }
   // replace 2 dashs for one
   return url.replace(/\b(\/\/*)\b/g, '/')
 }

@@ -179,10 +179,21 @@ export default {
     },
 
     finalQuery: function () {
+      
       let url = this.query
+      debugger;
+
+      //if url is complete relative, without / in start, like "endere/asdfas/"
       if (this.urlPrefix && !url.match(/^(\/|http)/)) {
         url = this.urlPrefix + '/' + url
       }
+
+      //if url start with a relative /
+      if (this.urlPrefix && url.match(/^\/[^\/]/) ){
+        const urlPrefix = new URL(this.urlPrefix)
+        url = urlPrefix.origin + url
+      }
+
       return url
     },
 
