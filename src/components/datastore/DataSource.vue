@@ -278,6 +278,10 @@ export default {
 
     addEndpoint: function () {
       this.$store.dispatch(`${this.module}/addDataSource`, { ...this.endpoint })
+    },
+
+    getFinalURL: function(){
+       return this.$store.getters[`${this.module}/getEndpointUrl`](this.keyname)
     }
 
   }

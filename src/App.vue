@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-
+  data
  <DataStore
       storeName="map"
       :url-prefix="$dataapi+'/mapa'"

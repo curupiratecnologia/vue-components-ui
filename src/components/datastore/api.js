@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+import qs from 'qs'
 var url = process.env.VUE_APP_GRAPHQL // process.env.VUE_APP_GRAPHQL || 'http://167.99.58.243:8080/v1/graphql'
 var BASE_URL = process.env.VUE_APP_DATA_API // process.env.VUE_APP_GRAPHQL || 'http://167.99.58.243:8080/v1/graphql'
 
@@ -35,27 +35,6 @@ const getServer = async function (query, filters = {}) {
   return new Promise((resolve, reject) => {
     let { url, variables } = parseURL(query, filters)
     url = mountURL(url)
-
-    // TODO - gambiarra temporaria para os filtros, remover o quanto antes e tratar nos devidos componentes
-    //     painel_filter_name: null
-    // painel_filter_value: null
-    // regiao_filter_name: "geocod_estado"
-    // regiao_geocodigo: 27
-    // const variablesFinal = { ...variables }
-    // if (variables.regiao_filter_name && variables.regiao_geocodigo) {
-    //   variablesFinal[variables.regiao_filter_name] = [variables.regiao_geocodigo]
-    //   delete variablesFinal?.regiao_filter_name
-    //   delete variablesFinal?.regiao_geocodigo
-    // }
-    // if (variables.painel_filter_name && variables.painel_filter_value) {
-    //   variablesFinal[variables.painel_filter_name] = Array.isArray(variables.painel_filter_value) ? variables.painel_filter_value : [variables.painel_filter_value]
-    //   delete variablesFinal?.painel_filter_name
-    //   delete variablesFinal?.painel_filter_value
-    // }
-    // // variables = { regiao: { geocod_estado: [11, 41], geocod_bacia: [6, 5] }, filtros:{servico:[2], consorcio:['03.628.611/0001-77','04.572.787/0001-17']} }
-    // //
-    // // console.log(url+"?="+qs.stringify(variables))
-
     axios({
       url: url,
       method: 'get',
@@ -66,6 +45,21 @@ const getServer = async function (query, filters = {}) {
       reject(e)
     })
   })
+}
+
+
+/**
+ * GET the url server
+ *
+ * @param {*} query - Query can contain palcehodes wih {KEY}, tha will be replacede with value with thak key in variables
+ * @param {*} [filters={}] - the parametres will pe passed
+ * @returns
+ */
+const getURL =  function (query, filters = {}) {
+    let { url, variables } = parseURL(query, filters)
+    url = mountURL(url)
+    let varFinal = qs.stringify(variables, {arrayFormat: 'brackets'})
+    return url+"?"+varFinal
 }
 
 /**
@@ -108,5 +102,6 @@ const mountURL = function (url) {
 export {
   axiosServer,
   getServer,
-  graphQL
+  graphQL,
+  getURL
 }

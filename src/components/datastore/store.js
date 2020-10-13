@@ -2,7 +2,7 @@
 
 import keyBy from 'lodash/keyBy'
 import get from 'lodash/get'
-import { getServer } from './api.js'
+import { getServer, getURL } from './api.js'
 import Vue from 'vue'
 
 // DEFINE TYPES
@@ -128,7 +128,6 @@ export default {
   actions: {
 
     addFilters: function () {
-
     },
 
     async addDataSource (ctx:actionType, endpoint: ENDPOINT) {
@@ -251,8 +250,9 @@ export default {
   getters: {
 
     getData: (state:mixed) => (key) => {
-      return state.data[key] ?? { items: [], loading: true, noData: true }
+      return state.data[key] ?? { items: [], loading: true, noData: true, ready:false }
     },
+
     getFilter: (state:mixed) => (key) => {
       if (key) {
         return state.filters?.[key]
@@ -260,6 +260,15 @@ export default {
         return state.filters
       }
     },
+
+    getEndpointUrl:(state:mixed) => (key) => {
+      let url = ""
+      debugger;
+      let endpointObj = state.endpoints?.[key]
+      url = getURL(endpointObj.query, endpointObj.variables)
+      return url
+    },
+
     getFilters: (state) => state.filters
 
   }

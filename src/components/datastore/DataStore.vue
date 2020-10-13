@@ -22,8 +22,10 @@ export default {
       getFilters: this.getFilters,
       getFilter: this.getFilters,
       getState: this.getState,
+      getData: this.getData,
       setState: this.setState,
-      filtersToUrlGlobal: this.filtersToUrlKey
+      filtersToUrlGlobal: this.filtersToUrlKey,
+      getEndpointUrl: this.getEndpointUrl,
     }
   },
 
@@ -164,6 +166,20 @@ export default {
      */
     getState: function (state) {
       return get(this.$store.state, `[${this.storeName}]` + obj)
+    },
+    /**
+     * @public
+     * will return a filter value, or all filter if no arg passed
+     */
+    getData: function (keyname) {
+        return this.$store.getters[`${this.storeName}/getData`](keyname)
+    },
+    /**
+     * @public
+     * will return a filter value, or all filter if no arg passed
+     */
+    getEndpointUrl: function (keyname) {
+        return this.$store.getters[`${this.storeName}/getEndpointUrl`](keyname)
     }
 
   }
