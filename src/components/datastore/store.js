@@ -263,7 +263,6 @@ export default {
 
     getEndpointUrl:(state:mixed) => (key) => {
       let url = ""
-      debugger;
       let endpointObj = state.endpoints?.[key]
       url = getURL(endpointObj.query, endpointObj.variables)
       return url

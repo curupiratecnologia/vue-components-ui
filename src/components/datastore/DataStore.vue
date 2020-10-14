@@ -25,7 +25,7 @@ export default {
       getData: this.getData,
       setState: this.setState,
       filtersToUrlGlobal: this.filtersToUrlKey,
-      getEndpointUrl: this.getEndpointUrl,
+      getEndpointUrl: this.getEndpointUrl
     }
   },
 
