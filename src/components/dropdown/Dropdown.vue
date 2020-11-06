@@ -64,7 +64,6 @@
             <keep-alive>
             <div class="popper submenu"  :style="{ width:menuWidth, 'max-width':menuWidth }">
             <dropdown-menu
-                
                 ref="dropdowmenu"
                 :search-bar="search"
                 v-model="selectedValues"
